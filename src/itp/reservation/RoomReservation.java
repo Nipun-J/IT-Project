@@ -249,6 +249,8 @@ public class RoomReservation extends javax.swing.JFrame {
        
         String roomNo = tblModel.getValueAt(jTable2.getSelectedRow(), 0).toString();
         String status = tblModel.getValueAt(jTable2.getSelectedRow(), 1).toString();
+        
+        
      
         System.out.println(roomNo);
         System.out.println(status);
@@ -258,11 +260,47 @@ public class RoomReservation extends javax.swing.JFrame {
     private void ViewDetailsbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewDetailsbtnActionPerformed
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         if(jTable2.getSelectedRow()!=-1){
-            if(jTable2.getRowCount()==0){
                 close();
                 ReservationRoomDetails l = new ReservationRoomDetails();
+                int row = jTable2.getSelectedRow()+1;
+                l.jLabel1.setText("Reservation Details for Room "+row);
+                                 try {  
+          String sql = "SELECT Cname,CEmail,CContact from customer values ('?,?,?')";
+          PreparedStatement pst;
+              pst = connection.prepareStatement(sql);
+          ResultSet rs = pst.executeQuery();
+                  
+                     
+                   model.setRowCount(0);
+                 
+                      List<     itp.reservation.model.RoomReservation> arrList = new ArrayList<     itp.reservation.model.RoomReservation>(); 
+                      
+                while (rs.next()) {
+                          itp.reservation.model.RoomReservation roomReservation = new   itp.reservation.model.RoomReservation();
+                     
+                     roomReservation .setRoomNumber(rs.getInt(1));
+                     roomReservation.setStatus(rs.getBoolean(2));
+                     System.out.println(roomReservation);
+                     
+                       arrList.add(roomReservation);
+                     
+                    
+                     
+
+                }
+               
+               
+      
+            jTable2.setModel(model);
+                   
+                   
+          
+     
+        } catch (SQLException ex) {
+            Logger.getLogger(RoomReservation.class.getName()).log(Level.SEVERE, null, ex);
+        }
                 l.setVisible(true);
-            }
+            
         }
     }//GEN-LAST:event_ViewDetailsbtnActionPerformed
 

@@ -10,6 +10,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import itp.reservation.model.ID;
 /**
  *
  * @author SHADOWRATH
@@ -192,7 +193,9 @@ public class ReservationRInput extends javax.swing.JFrame {
 
     private void btnReserveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReserveActionPerformed
         try{
-            String sql = "INSERT into customer(Cname,CEmail,CContact) values (?,?,?)";
+            String CustomerID = ID.generateIDs(ID.getCustomerIDs(), "C");
+            
+            String sql = "INSERT into customer(Cid,Cname,CEmail,CContact) values (?,?,?,?)";
             String sqlx = "INSERT into Reservation(checkIn,checkOut) values (?,?)";
           PreparedStatement pst;
           PreparedStatement pstx;
@@ -201,15 +204,16 @@ public class ReservationRInput extends javax.swing.JFrame {
               
               SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
               
-            pst.setString(1,RinputName.getText());
-            pst.setString(2,RinputEmail.getText());
+            pst.setString(1,CustomerID);
+            pst.setString(2,RinputName.getText());
+            pst.setString(3,RinputEmail.getText());
             pst.setInt(4,Integer.parseInt(RinputContact.getText()));
-            pstx.setString(3,date.format(RinputCheckIN.getDate()));
-            pstx.setString(4,date.format(RinputCheckOUT.getDate()));
+            pstx.setString(1,date.format(RinputCheckIN.getDate()));
+            pstx.setString(2,date.format(RinputCheckOUT.getDate()));
             
             pst.executeUpdate();
             
-            JOptionPane.showConfirmDialog(null,"Confirm this reservation","CONFIRMATION",JOptionPane.QUESTION_MESSAGE,JOptionPane.YES_NO_OPTION);
+            JOptionPane.showConfirmDialog(null,"Confirm this reservation","CONFIRMATION",JOptionPane.YES_NO_OPTION);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }
@@ -217,8 +221,8 @@ public class ReservationRInput extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         close();
-        ReservationRoomDetails g = new ReservationRoomDetails();
-        g.setVisible(true);
+        //ReservationRoomDetails g = new ReservationRoomDetails();
+        //g.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

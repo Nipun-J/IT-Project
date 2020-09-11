@@ -7,19 +7,73 @@ package itp.reservation;
 
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author SHADOWRATH
  */
 public class ReservationRoomDetails extends javax.swing.JFrame {
+    
+     private Connection connection = DBConnection.getDbConnection();
 
     /**
      * Creates new form ReservationRoomDetails
      */
     public ReservationRoomDetails() {
         initComponents();
+        
     }
+    
+          public void initialize(int roomNo){
+                /* try {  
+          String sql = "SELECT Room_Number,status_ from Reservations WHWRE rooms="+roomNo+"";
+          PreparedStatement pst;
+              pst = connection.prepareStatement(sql);
+          ResultSet rs = pst.executeQuery();
+                     System.out.println(jTable1);
+                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                   model.setRowCount(0);
+                 
+                      List<itp.reservation.model.RoomReservation> arrList = new ArrayList<itp.reservation.model.RoomReservation>(); 
+                      
+                while (rs.next()) {
+                     itp.reservation.model.RoomReservation roomReservation = new   itp.reservation.model.RoomReservation();
+                     
+                     roomReservation.setRoomNumber(rs.getInt(1));
+                     roomReservation.setStatus(rs.getBoolean(2));
+                     System.out.println(roomReservation);
+                     
+                       arrList.add(roomReservation);
+                  
+
+                }
+               for(int i = arrList.size()-1 ; i >=0 ; i--){
+                   itp.reservation.model.RoomReservation tempRoom = arrList.get(i);
+                   if(tempRoom.isStatus()){
+                  model.insertRow(0,new Object[]{tempRoom.getRoomNumber(),STATUS_BOOKED});
+               }
+                   else{
+                     model.insertRow(0,new Object[]{tempRoom.getRoomNumber(),STATUS_NOT_BOOKED});   
+                   }
+               }
+               
+      
+            jTable2.setModel(model);
+                   
+                   
+          
+     
+        } catch (SQLException ex) {
+            Logger.getLogger(RoomReservation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                */
+      }
     
     public void close()
     {
@@ -48,6 +102,7 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("jLabel1");
 
         BTNReservation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -71,8 +126,8 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Name:", null},
-                {"Email:", null},
+                {"Name :", null},
+                {"Email :", null},
                 {"Contact No:", null},
                 {"Check In:", null},
                 {"Check Out:", null}
@@ -80,7 +135,22 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
             new String [] {
                 "", ""
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         BTNdelete.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -102,13 +172,13 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(161, 161, 161)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BTNReservation)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2))
@@ -141,7 +211,7 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
                     .addComponent(BTNdelete)
                     .addComponent(BTNadd)
                     .addComponent(BTNupdate))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -207,7 +277,7 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
     private javax.swing.JButton BTNupdate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

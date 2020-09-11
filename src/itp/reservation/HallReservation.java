@@ -246,7 +246,15 @@ public class HallReservation extends javax.swing.JFrame {
     }//GEN-LAST:event_BTNHhistoryActionPerformed
 
     private void VDetailsbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VDetailsbtnActionPerformed
-        // TODO add your handling code here:
+       DefaultTableModel model = (DefaultTableModel) HallDTable.getModel();
+        if(HallDTable.getSelectedRow()!=-1){
+                close();
+                ReservationHallDetails l = new ReservationHallDetails();
+                
+                
+                l.jLabel1.setText("Reservation Details for Hall "+HallDTable.getSelectionModel());
+                l.setVisible(true);
+        }
     }//GEN-LAST:event_VDetailsbtnActionPerformed
 
     private void HallDTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HallDTableMouseClicked
