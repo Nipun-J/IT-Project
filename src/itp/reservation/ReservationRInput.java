@@ -11,13 +11,16 @@ import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import itp.reservation.model.ID;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.regex.Pattern;
 /**
  *
  * @author SHADOWRATH
  */
 public class ReservationRInput extends javax.swing.JFrame {
  
-    
+    //DB Connection
     private Connection connection = DBConnection.getDbConnection();
     /**
      * Creates new form ReservationRInput
@@ -26,6 +29,7 @@ public class ReservationRInput extends javax.swing.JFrame {
         initComponents();
     }
     
+    //Method to close the previous window
     public void close()
     {
         WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
@@ -55,10 +59,15 @@ public class ReservationRInput extends javax.swing.JFrame {
         btnReserve = new javax.swing.JButton();
         RinputCheckIN = new com.toedter.calendar.JDateChooser();
         RinputCheckOUT = new com.toedter.calendar.JDateChooser();
-        jButton3 = new javax.swing.JButton();
+        Backbtn = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jlbNum = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        RNIC = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("jLabel1");
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -82,9 +91,9 @@ public class ReservationRInput extends javax.swing.JFrame {
 
         jLabel6.setText("Check Out:");
 
-        RinputContact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RinputContactActionPerformed(evt);
+        RinputContact.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                RinputContactKeyPressed(evt);
             }
         });
 
@@ -96,25 +105,39 @@ public class ReservationRInput extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton3.setText("Back");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        Backbtn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        Backbtn.setText("Back");
+        Backbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                BackbtnActionPerformed(evt);
             }
         });
+
+        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\SHADOWRATH\\Pictures\\vibes.png")); // NOI18N
+        jLabel7.setText("jLabel7");
+
+        jlbNum.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlbNum.setText("jLabel1");
+
+        jLabel8.setText("NIC:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnReserve, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jButton3)
+                        .addComponent(Backbtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlbNum, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -134,52 +157,61 @@ public class ReservationRInput extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(RinputContact, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel8))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(RinputName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(RinputEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(96, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnReserve, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(RinputEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(RNIC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(Backbtn)
+                    .addComponent(jlbNum, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1)
-                                    .addComponent(jButton2)
-                                    .addComponent(jButton3))
-                                .addGap(47, 47, 47)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(RinputName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(RinputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(RinputContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel5))
-                            .addComponent(RinputCheckIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(RinputName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(RinputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6))
-                    .addComponent(RinputCheckOUT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(RNIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(RinputContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel5)
+                            .addComponent(RinputCheckIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                                .addComponent(jLabel6))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addComponent(RinputCheckOUT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 2, Short.MAX_VALUE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addComponent(btnReserve)
                 .addGap(31, 31, 31))
         );
@@ -187,49 +219,118 @@ public class ReservationRInput extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RinputContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RinputContactActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RinputContactActionPerformed
-
+    //Reserve button
     private void btnReserveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReserveActionPerformed
+        if(RinputName.getText().isEmpty() && RinputEmail.getText().isEmpty() && RinputContact.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "<html>Incomplete Information!!!! <br> Please check</html>");
+        }
+       
+            
         try{
             String CustomerID = ID.generateIDs(ID.getCustomerIDs(), "C");
+            String RID = ID.generateIDs(ID.getReserveIDs(), "R");
             
-            String sql = "INSERT into customer(Cid,Cname,CEmail,CContact) values (?,?,?,?)";
-            String sqlx = "INSERT into Reservation(checkIn,checkOut) values (?,?)";
+            //enter details into customer table
+            String sql = "INSERT into customer(Cid,Cname,CEmail,NIC,CContact) values (?,?,?,?,?)";
+            //String sqlx = "INSERT into Reservation(RecID,checkIn,checkOut) values (?,?,?)";
+            
+            //enter details into reservation table
+            //String sqlx = "UPDATE Reservation SET RecID = ?, checkIn = ?, checkOut = ? WHERE Rno = ?";
+            String sqlx = "INSERT into Reservation(RecID,CusID,checkIn,checkOut,Rno) values (?,?,?,?,?)";
+            
+            //Changing the reservation status
+            String sqly = "UPDATE Rooms SET status_= TRUE WHERE Room_Number = ?";
+            
           PreparedStatement pst;
           PreparedStatement pstx;
+          PreparedStatement psty;
               pst = connection.prepareStatement(sql);
               pstx = connection.prepareStatement(sqlx);
+              psty = connection.prepareStatement(sqly);
               
               SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
               
             pst.setString(1,CustomerID);
             pst.setString(2,RinputName.getText());
             pst.setString(3,RinputEmail.getText());
-            pst.setInt(4,Integer.parseInt(RinputContact.getText()));
-            pstx.setString(1,date.format(RinputCheckIN.getDate()));
-            pstx.setString(2,date.format(RinputCheckOUT.getDate()));
+            pst.setString(4,RNIC.getText());
+            pst.setInt(5,Integer.parseInt(RinputContact.getText()));
             
-            pst.executeUpdate();
+            pstx.setString(1,RID);
+            pstx.setString(2,CustomerID);
+            pstx.setString(3,date.format(RinputCheckIN.getDate()));
+            pstx.setString(4,date.format(RinputCheckOUT.getDate()));
+            pstx.setString(5,jlbNum.getText());
             
-            JOptionPane.showConfirmDialog(null,"Confirm this reservation","CONFIRMATION",JOptionPane.YES_NO_OPTION);
+            psty.setString(1, jlbNum.getText());
+            
+            System.out.println("UPDATE : "+sqlx);
+            //Validations
+            
+             if (!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", RinputEmail.getText()))) 
+{
+            JOptionPane.showMessageDialog(null, "Please enter a valid email", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+             else if(RNIC.getText().length()<10){
+              JOptionPane.showMessageDialog(null, "Please enter a valid NIC number", "Error", JOptionPane.ERROR_MESSAGE);   
+             }
+            else
+             {
+            int m = JOptionPane.showConfirmDialog(null,"Confirm this reservation","CONFIRMATION",JOptionPane.YES_NO_OPTION);
+            if(m == 0)
+            {
+               pst.executeUpdate(); 
+               pstx.executeUpdate();
+               psty.executeUpdate();
+            }
+            else
+            {
+               RinputName.setText("");
+               RinputEmail.setText("");
+               RinputContact.setText("");
+               RinputCheckIN.setDate(null);
+               RinputCheckOUT.setDate(null);
+                
+            }
+             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnReserveActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void BackbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackbtnActionPerformed
         close();
-        //ReservationRoomDetails g = new ReservationRoomDetails();
-        //g.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        ReservationRoomDetails g = new ReservationRoomDetails();
+        g.setVisible(true);
+    }//GEN-LAST:event_BackbtnActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         close();
         ReservationHome z = new ReservationHome();
         z.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void RinputContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RinputContactKeyPressed
+        String Contact = RinputContact.getText();
+        int length = Contact.length();
+        char l = evt.getKeyChar();
+        
+        if(evt.getKeyChar()>='0' && evt.getKeyChar()<='9')
+        {
+            if(length<10)
+                RinputContact.setEditable(true);
+            else
+                RinputContact.setEditable(false);
+        }else
+        {
+          if(evt.getExtendedKeyCode()==KeyEvent.VK_BACK_SPACE || evt.getExtendedKeyCode()==KeyEvent.VK_DELETE)
+          {
+              RinputContact.setEditable(true);
+          }
+          else
+              RinputContact.setEditable(false);
+        }
+    }//GEN-LAST:event_RinputContactKeyPressed
 
     /**
      * @param args the command line arguments
@@ -267,6 +368,8 @@ public class ReservationRInput extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Backbtn;
+    private javax.swing.JTextField RNIC;
     private com.toedter.calendar.JDateChooser RinputCheckIN;
     private com.toedter.calendar.JDateChooser RinputCheckOUT;
     private javax.swing.JTextField RinputContact;
@@ -275,12 +378,14 @@ public class ReservationRInput extends javax.swing.JFrame {
     private javax.swing.JButton btnReserve;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    public javax.swing.JLabel jlbNum;
     // End of variables declaration//GEN-END:variables
 }

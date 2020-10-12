@@ -44,6 +44,7 @@ public class ReservationHome extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         HALLbtn.setIcon(new javax.swing.ImageIcon("C:\\Users\\SHADOWRATH\\Desktop\\Y2\\Semester 2\\ITP\\Wireframes\\2.jpg")); // NOI18N
         HALLbtn.setText("jButton1");
@@ -79,8 +80,8 @@ public class ReservationHome extends javax.swing.JFrame {
                         .addComponent(jButton4)
                         .addGap(40, 40, 40))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(HALLbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57))))
+                        .addComponent(HALLbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(58, 58, 58)

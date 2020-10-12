@@ -7,19 +7,70 @@ package itp.reservation;
 
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author SHADOWRATH
  */
 public class ReservationHallDetails extends javax.swing.JFrame {
+    
+    private Connection connection = DBConnection.getDbConnection();
+     public String custID;
+     public static String Hallname ;
+     ResultSet rs;
 
     /**
      * Creates new form ReservationRoomDetails
      */
     public ReservationHallDetails() {
-        initComponents();
+        initComponents();        
+        System.out.println("Hall Name :"+Hallname);
     }
+    
+    
+     public void updateData(String v){
+        System.out.println("GetData Executed");
+        try{
+            HallReservation z = new HallReservation();
+            int row = z.HallDTable.getSelectedRow();
+            v = z.HallDTable.getModel().getValueAt(row, 0).toString();
+            String sql = "SELECT customer.Cname,customer.CEmail,customer.CContact,Reservation.checkIn from customer,Reservation where customer.Cid = Reservation.CusID AND Hname ='"+v+"'";
+            System.out.println("SQL CODE : "+sql);
+            
+            PreparedStatement pst;
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery(); 
+            System.out.println("Rs received");
+            
+            while (rs.next()) {
+                System.out.println("exe");
+                ////////////////////////
+                //System.out.println("Rs Output [0]: "+rs.getString(1));
+                //System.out.println("Rs Output [1]: "+rs.getString(1));
+                HIName.setText(rs.getString(1));
+                HIEmail.setText(rs.getString(2));
+                HIContact.setText(rs.getString(3));
+                HICIn.setText(rs.getString(4));
+                
+                
+                
+                
+                /////////////////////////
+                
+            }                  
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoomReservation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+    }
+
     
     public void close()
     {
@@ -40,14 +91,21 @@ public class ReservationHallDetails extends javax.swing.JFrame {
         BTNReservation = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         BTNadd = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         BTNdelete = new javax.swing.JButton();
         BTNupdate = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        HIName = new javax.swing.JLabel();
+        HIEmail = new javax.swing.JLabel();
+        HIContact = new javax.swing.JLabel();
+        HICIn = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("jLabel1");
 
         BTNReservation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -69,20 +127,6 @@ public class ReservationHallDetails extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Name:", null},
-                {"Email:", null},
-                {"Contact No:", null},
-                {"Check In:", null},
-                {"Check Out:", null}
-            },
-            new String [] {
-                "", ""
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
         BTNdelete.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         BTNdelete.setText("DELETE");
 
@@ -97,32 +141,59 @@ public class ReservationHallDetails extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Name :");
+
+        jLabel3.setText("Email :");
+
+        jLabel4.setText("Contact No :");
+
+        jLabel5.setText("Check In :");
+
+        HIName.setText("not booked");
+
+        HIEmail.setText("not booked");
+
+        HIContact.setText("not booked");
+
+        HICIn.setText("not booked");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BTNReservation)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(4, 4, 4)
+                            .addComponent(jButton1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(BTNReservation)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton2))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(66, 66, 66)
+                            .addComponent(BTNadd)
+                            .addGap(86, 86, 86)
+                            .addComponent(BTNdelete)
+                            .addGap(61, 61, 61)
+                            .addComponent(BTNupdate)
+                            .addGap(72, 72, 72)))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(BTNadd)
-                                .addGap(86, 86, 86)
-                                .addComponent(BTNdelete)
-                                .addGap(61, 61, 61)
-                                .addComponent(BTNupdate))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(72, 72, 72)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(HICIn, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(HIContact, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(HIEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(HIName, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -134,14 +205,28 @@ public class ReservationHallDetails extends javax.swing.JFrame {
                     .addComponent(BTNReservation)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
-                .addGap(58, 58, 58)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74)
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(HIName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(HIEmail))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(HIContact))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(HICIn))
+                .addGap(91, 91, 91)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BTNdelete)
                     .addComponent(BTNadd)
                     .addComponent(BTNupdate))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,11 +291,17 @@ public class ReservationHallDetails extends javax.swing.JFrame {
     private javax.swing.JButton BTNadd;
     private javax.swing.JButton BTNdelete;
     private javax.swing.JButton BTNupdate;
+    private javax.swing.JLabel HICIn;
+    private javax.swing.JLabel HIContact;
+    private javax.swing.JLabel HIEmail;
+    private javax.swing.JLabel HIName;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     public javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 
 }

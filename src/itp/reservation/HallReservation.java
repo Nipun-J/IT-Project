@@ -249,10 +249,13 @@ public class HallReservation extends javax.swing.JFrame {
        DefaultTableModel model = (DefaultTableModel) HallDTable.getModel();
         if(HallDTable.getSelectedRow()!=-1){
                 close();
-                ReservationHallDetails l = new ReservationHallDetails();
-                
-                
-                l.jLabel1.setText("Reservation Details for Hall "+HallDTable.getSelectionModel());
+                ReservationHallDetails l = new ReservationHallDetails();               
+                int row = HallDTable.getSelectedRow();
+                l.jLabel1.setText("Reservation Details for Hall "+HallDTable.getModel().getValueAt(row, 0));
+                String p = HallDTable.getModel().getValueAt(row, 0).toString();
+                System.out.println("oh yeah");
+                System.out.println(p);
+                l.updateData(p);
                 l.setVisible(true);
         }
     }//GEN-LAST:event_VDetailsbtnActionPerformed
@@ -308,7 +311,7 @@ public class HallReservation extends javax.swing.JFrame {
     private javax.swing.JButton BTNHhistory;
     private javax.swing.JButton BTNHome;
     private javax.swing.JButton BTNlogout;
-    private javax.swing.JTable HallDTable;
+    public javax.swing.JTable HallDTable;
     private javax.swing.JButton VDetailsbtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

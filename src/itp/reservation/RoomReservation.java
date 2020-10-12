@@ -236,6 +236,9 @@ public class RoomReservation extends javax.swing.JFrame {
         l.setVisible(true);
     }//GEN-LAST:event_ReservationRhistoryActionPerformed
 
+    
+    
+    
     private void BTNHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNHomeActionPerformed
         close();
         ReservationHome c = new ReservationHome();
@@ -263,33 +266,53 @@ public class RoomReservation extends javax.swing.JFrame {
                 close();
                 ReservationRoomDetails l = new ReservationRoomDetails();
                 int row = jTable2.getSelectedRow()+1;
-                l.jLabel1.setText("Reservation Details for Room "+row);
-                                 try {  
-          String sql = "SELECT Cname,CEmail,CContact from customer values ('?,?,?')";
-          PreparedStatement pst;
+                l.jlb1.setText("Reservation Details for Room");
+                l.jlb2.setText(""+row);
+                l.updateData(row);
+
+            /*try {  
+            int r = jTable2.getSelectedRow();                           
+         
+          String sql = "SELECT customer.Cname,customer.CEmail,customer.CContact,Reservation.checkIn,Reservation.checkOut from customer,Reservation where customer.Cid = Reservation.CusID AND Rno = ?";
+
+
+                 PreparedStatement pst;
               pst = connection.prepareStatement(sql);
+              pst.setInt(1,jTable2.getSelectedRow());
           ResultSet rs = pst.executeQuery();
+                                    /* System.out.println("print in rs");
+                                     System.out.println(rs);
+                                     System.out.println("print in rs.next");
+                                     System.out.println(rs.next());
+                                     //System.out.println("print in rs.first");
+                                     System.out.println(rs.first());*/
+          
                   
                      
-                   model.setRowCount(0);
+                 /*  model.setRowCount(0);
                  
-                      List<     itp.reservation.model.RoomReservation> arrList = new ArrayList<     itp.reservation.model.RoomReservation>(); 
+                      List<     itp.reservation.model.CustomerDetails> arrList = new ArrayList<     itp.reservation.model.CustomerDetails>(); 
                       
+                                     System.out.println("before rs.next");
                 while (rs.next()) {
-                          itp.reservation.model.RoomReservation roomReservation = new   itp.reservation.model.RoomReservation();
+                    System.out.println("after rs.next");
+                    rs.getString(1);
+                         /* itp.reservation.model.CustomerDetails Cd = new   itp.reservation.model.CustomerDetails();
                      
-                     roomReservation .setRoomNumber(rs.getInt(1));
-                     roomReservation.setStatus(rs.getBoolean(2));
-                     System.out.println(roomReservation);
+                     Cd .setCname(rs.getString(1));
+                     Cd.setCemail(rs.getString(2));
+                     Cd.setCcontact(rs.getString(3));
+                     System.out.println("print in ");
+                     System.out.println(Cd);
                      
-                       arrList.add(roomReservation);
+                       arrList.add(Cd);*/
                      
                     
                      
 
-                }
+              /*  }
                
-               
+                                     System.out.println("result"+arrList);
       
             jTable2.setModel(model);
                    
@@ -298,7 +321,7 @@ public class RoomReservation extends javax.swing.JFrame {
      
         } catch (SQLException ex) {
             Logger.getLogger(RoomReservation.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
                 l.setVisible(true);
             
         }
@@ -348,7 +371,7 @@ public class RoomReservation extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable2;
+    public javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 
     

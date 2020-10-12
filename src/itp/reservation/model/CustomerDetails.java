@@ -11,14 +11,26 @@ package itp.reservation.model;
  */
 public class CustomerDetails {
 
+    
+
+    
+    private String cid;
     private String Cname;
     private String Cemail;
-    private String Ccontact;
+    private String NIC;
+    private int Ccontact;
+    
+    
 
-    public CustomerDetails(String Cname, String Cemail, String Ccontact) {
+    public CustomerDetails(String Cname, String Cemail,String NIC, int Ccontact) {
         this.Cname = Cname;
         this.Cemail = Cemail;
+        this.NIC = NIC;
         this.Ccontact = Ccontact;
+    }
+
+    public CustomerDetails() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
@@ -29,8 +41,36 @@ public class CustomerDetails {
     public String getCemail() {
         return Cemail;
     }
+    
+    public String getNIC() {
+        return NIC;
+    }
 
-    public String getCcontact() {
+    public int getCcontact() {
         return Ccontact;
+    }
+    
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+    
+    public void setCname(String Cname) {
+        this.Cname = Cname;
+    }
+
+    public void setCemail(String Cemail) {
+        this.Cemail = Cemail;
+    }
+    
+    public void setNIC(String NIC) {
+        this.NIC = NIC;
+    }
+
+    public void setCcontact(int Ccontact) {
+        this.Ccontact = Ccontact;
     }
 }
