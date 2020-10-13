@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -37,9 +39,11 @@ public class ReservationHallDetails extends javax.swing.JFrame {
      public void updateData(String v){
         System.out.println("GetData Executed");
         try{
-            HallReservation z = new HallReservation();
-            int row = z.HallDTable.getSelectedRow();
-            v = z.HallDTable.getModel().getValueAt(row, 0).toString();
+            //HallReservation z = new HallReservation();
+            //int row = z.HallDTable.getSelectedRow();
+            //System.out.println("row value :"+row);
+            
+            //v = z.HallDTable.getModel().getValueAt(row, 0).toString();
             String sql = "SELECT customer.Cname,customer.CEmail,customer.CContact,Reservation.checkIn from customer,Reservation where customer.Cid = Reservation.CusID AND Hname ='"+v+"'";
             System.out.println("SQL CODE : "+sql);
             
@@ -102,6 +106,7 @@ public class ReservationHallDetails extends javax.swing.JFrame {
         HIEmail = new javax.swing.JLabel();
         HIContact = new javax.swing.JLabel();
         HICIn = new javax.swing.JLabel();
+        JLB6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -129,6 +134,11 @@ public class ReservationHallDetails extends javax.swing.JFrame {
 
         BTNdelete.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         BTNdelete.setText("DELETE");
+        BTNdelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNdeleteActionPerformed(evt);
+            }
+        });
 
         BTNupdate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         BTNupdate.setText("UPDATE");
@@ -157,6 +167,9 @@ public class ReservationHallDetails extends javax.swing.JFrame {
 
         HICIn.setText("not booked");
 
+        JLB6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JLB6.setText("jLabel6");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -167,9 +180,11 @@ public class ReservationHallDetails extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGap(4, 4, 4)
                             .addComponent(jButton1)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(JLB6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(BTNReservation)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton2))
@@ -204,7 +219,8 @@ public class ReservationHallDetails extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BTNReservation)
                     .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(JLB6, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -226,7 +242,7 @@ public class ReservationHallDetails extends javax.swing.JFrame {
                     .addComponent(BTNdelete)
                     .addComponent(BTNadd)
                     .addComponent(BTNupdate))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
 
         pack();
@@ -246,9 +262,51 @@ public class ReservationHallDetails extends javax.swing.JFrame {
 
     private void BTNaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNaddActionPerformed
         close();
-        ReservationHInput1 b = new ReservationHInput1();
-        b.setVisible(true);
+        String p = HIName.getText().toString();
+        if(p == "not booked"){
+            ReservationHInput1 x = new ReservationHInput1();
+            x.JLBName.setText(JLB6.getText());
+            x.setVisible(true);
+            RoomReservation k = new RoomReservation();
+            DefaultTableModel model = (DefaultTableModel) k.jTable2.getModel();
+            int row = k.jTable2.getSelectedRow()+1;
+            x.jLabel1.setText("Enter Reservation Details for Hall ");
+        }else{
+            System.out.println("false");
+            JOptionPane.showMessageDialog(null, "This Hall is already booked");
+        
+        }
     }//GEN-LAST:event_BTNaddActionPerformed
+
+    private void BTNdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNdeleteActionPerformed
+ try{
+            
+            String sql = "DELETE from Reservation where Hname = ?";
+            
+            String sqlx = "UPDATE Halls SET status_= FALSE WHERE HallName = ?";
+            
+            PreparedStatement pst;
+            PreparedStatement pstx;
+            pst = connection.prepareStatement(sql);
+            pstx = connection.prepareStatement(sqlx);
+            pst.setString(1, JLB6.getText());
+            pstx.setString(1, JLB6.getText());
+            int m = JOptionPane.showConfirmDialog(null,"Delete this reservation","DELETE",JOptionPane.YES_NO_OPTION);
+            if(m == 0){
+            pst.executeUpdate();
+            pstx.executeUpdate();
+            close();
+            HallReservation z = new HallReservation();
+            z.setVisible(true);
+            }
+            else{}
+            
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+            // TODO add your handling code here:
+    }//GEN-LAST:event_BTNdeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,6 +353,7 @@ public class ReservationHallDetails extends javax.swing.JFrame {
     private javax.swing.JLabel HIContact;
     private javax.swing.JLabel HIEmail;
     private javax.swing.JLabel HIName;
+    public javax.swing.JLabel JLB6;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     public javax.swing.JLabel jLabel1;

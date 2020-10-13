@@ -251,9 +251,10 @@ public class HallReservation extends javax.swing.JFrame {
                 close();
                 ReservationHallDetails l = new ReservationHallDetails();               
                 int row = HallDTable.getSelectedRow();
-                l.jLabel1.setText("Reservation Details for Hall "+HallDTable.getModel().getValueAt(row, 0));
+                l.jLabel1.setText("Reservation Details for Hall ");
+                l.JLB6.setText(HallDTable.getModel().getValueAt(row, 0).toString());
                 String p = HallDTable.getModel().getValueAt(row, 0).toString();
-                System.out.println("oh yeah");
+                
                 System.out.println(p);
                 l.updateData(p);
                 l.setVisible(true);

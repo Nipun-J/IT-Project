@@ -30,7 +30,7 @@ public class CustomerDetails {
     }
 
     public CustomerDetails() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   //     throw new UnsupportedOperationException("Not supported yet. Provide information in the constructor in Cname, Cemail, NIC, Ccontac order"); //To change body of generated methods, choose Tools | Templates.
     }
     
     

@@ -5,12 +5,15 @@
  */
 package itp.reservation;
 
+import itp.reservation.model.CustomerDetails;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -30,7 +33,7 @@ public class ResRHistory extends javax.swing.JFrame {
     
     public void displayTable(){
         try{
-            String sql =  "SELECT customer.Cid,customer.Cname,customer.CEmail,customer.CContact,Reservation.checkIn,Reservation.checkOut from customer,Reservation where customer.Cid = Reservation.CusID";
+            String sql =  "SELECT customer.Cid,customer.Cname,customer.CEmail,customer.CContact,Reservation.checkIn,Reservation.checkOut from customer,Reservation where customer.Cid = Reservation.CusID AND Hname IS NULL";
 
             System.out.println("done");
             
@@ -38,41 +41,67 @@ public class ResRHistory extends javax.swing.JFrame {
             
             pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-            System.out.println(jTable1);
+            //System.out.println(jTable1);
+            System.out.println("Jtable printed");
             
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
             
+            System.out.println("row count set to 0");
+            
             List<itp.reservation.model.ReservationDetails> arrList = new ArrayList<itp.reservation.model.ReservationDetails>();
             List<itp.reservation.model.CustomerDetails> arList = new ArrayList<itp.reservation.model.CustomerDetails>();
             
+            System.out.println("Arrys created");
             
+            //CustomerDetails x = new CustomerDetails("Name","email","NIC",1);
+            
+            //System.out.println("x created");
+            //itp.reservation.model.ReservationDetails y = new itp.reservation.model.ReservationDetails();
+            
+            System.out.println("before while");
             while(rs.next())
             { 
-                 
+                System.out.println("while started");  
               itp.reservation.model.CustomerDetails x = new   itp.reservation.model.CustomerDetails();
               itp.reservation.model.ReservationDetails y = new   itp.reservation.model.ReservationDetails();
               
+                System.out.println("running setters");
               x.setCid(rs.getString(1));
               x.setCname(rs.getString(2));
               x.setCemail(rs.getString(3));
               x.setCcontact(rs.getInt(4));
-              
+                System.out.println("setter done");
               y.setCheckin(rs.getDate(5));
               y.setCheckout(rs.getDate(6));
-              
+                System.out.println("chk in out done");
               
                 
               arrList.add(y);
               arList.add(x);
-             
+                System.out.println("list updated");
               
             }
+             for(int i = arrList.size()-1 ; i >=0 ; i--){
+                   itp.reservation.model.CustomerDetails tempRoom = arList.get(i);
+                   itp.reservation.model.ReservationDetails l = arrList.get(i);
+                  model.insertRow(0,new Object[]{tempRoom.getCid(),tempRoom.getCname(),tempRoom.getCemail(),tempRoom.getCcontact(),l.getCheckin(),l.getCheckout()});
+               
+               }
             jTable1.setModel(model);
             
         }catch(Exception e){
-            System.out.println("Fail");
+            System.out.println("Fail"+ e);
         }
+    }
+    
+    private void filter(String item)
+    {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+        jTable1.setRowSorter(tr);
+        
+        tr.setRowFilter(RowFilter.regexFilter(item));
     }
     
     
@@ -96,10 +125,9 @@ public class ResRHistory extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        SearchText = new javax.swing.JTextField();
+        RSearch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -138,14 +166,6 @@ public class ResRHistory extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("LOGOUT");
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton3.setText("Back");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -154,8 +174,13 @@ public class ResRHistory extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton4.setText("SEARCH");
+        RSearch.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        RSearch.setText("SEARCH");
+        RSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RSearchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,12 +200,9 @@ public class ResRHistory extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4)))
+                        .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RSearch)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -195,20 +217,14 @@ public class ResRHistory extends javax.swing.JFrame {
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                    .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RSearch))
+                .addGap(49, 49, 49)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         close();
@@ -221,6 +237,11 @@ public class ResRHistory extends javax.swing.JFrame {
         RoomReservation n = new RoomReservation();
         n.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void RSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RSearchActionPerformed
+       String item = SearchText.getText();
+       filter(item);
+    }//GEN-LAST:event_RSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,14 +279,13 @@ public class ResRHistory extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton RSearch;
+    private javax.swing.JTextField SearchText;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

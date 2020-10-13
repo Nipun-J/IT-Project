@@ -25,7 +25,9 @@ public class ReservationDetails {
     
     }
     
-     public ReservationDetails(){}
+     public ReservationDetails(){
+     
+     }
      
       public Date getCheckin() {
         return Checkin;
