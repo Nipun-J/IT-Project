@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -26,6 +28,8 @@ public class ReservationHallDetails extends javax.swing.JFrame {
      public String custID;
      public static String Hallname ;
      ResultSet rs;
+     public int row_n = -1;
+     public String n;
 
     /**
      * Creates new form ReservationRoomDetails
@@ -36,15 +40,11 @@ public class ReservationHallDetails extends javax.swing.JFrame {
     }
     
     
-     public void updateData(String v){
+     public void updateData(String v, String hall_name){
         System.out.println("GetData Executed");
+        n = hall_name;
         try{
-            //HallReservation z = new HallReservation();
-            //int row = z.HallDTable.getSelectedRow();
-            //System.out.println("row value :"+row);
-            
-            //v = z.HallDTable.getModel().getValueAt(row, 0).toString();
-            String sql = "SELECT customer.Cname,customer.CEmail,customer.CContact,Reservation.checkIn from customer,Reservation where customer.Cid = Reservation.CusID AND Hname ='"+v+"'";
+            String sql = "SELECT customer.Cname,customer.CEmail,customer.NIC,customer.CContact,Reservation.checkIn from customer,Reservation where customer.Cid = Reservation.CusID AND Hname ='"+v+"'";
             System.out.println("SQL CODE : "+sql);
             
             PreparedStatement pst;
@@ -59,8 +59,9 @@ public class ReservationHallDetails extends javax.swing.JFrame {
                 //System.out.println("Rs Output [1]: "+rs.getString(1));
                 HIName.setText(rs.getString(1));
                 HIEmail.setText(rs.getString(2));
-                HIContact.setText(rs.getString(3));
-                HICIn.setText(rs.getString(4));
+                HINIC.setText(rs.getString(3));
+                HIContact.setText(rs.getString(4));
+                HICIn.setText(rs.getString(5));
                 
                 
                 
@@ -74,6 +75,7 @@ public class ReservationHallDetails extends javax.swing.JFrame {
         }
                 
     }
+     
 
     
     public void close()
@@ -107,6 +109,8 @@ public class ReservationHallDetails extends javax.swing.JFrame {
         HIContact = new javax.swing.JLabel();
         HICIn = new javax.swing.JLabel();
         JLB6 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        HINIC = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -142,6 +146,11 @@ public class ReservationHallDetails extends javax.swing.JFrame {
 
         BTNupdate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         BTNupdate.setText("UPDATE");
+        BTNupdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNupdateActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setText("Back");
@@ -169,6 +178,10 @@ public class ReservationHallDetails extends javax.swing.JFrame {
 
         JLB6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JLB6.setText("jLabel6");
+
+        jLabel6.setText("NIC  :");
+
+        HINIC.setText("not booked");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,25 +215,28 @@ public class ReservationHallDetails extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(HICIn, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(HIContact, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(HIEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(HIName, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(HIName, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(HINIC))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BTNReservation)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(JLB6, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JLB6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BTNReservation)
+                        .addComponent(jButton2)
+                        .addComponent(jButton1)))
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -229,15 +245,19 @@ public class ReservationHallDetails extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(HIEmail))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(HIContact))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel6)
+                    .addComponent(HINIC))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(HIContact)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(HICIn))
-                .addGap(91, 91, 91)
+                .addGap(81, 81, 81)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BTNdelete)
                     .addComponent(BTNadd)
@@ -308,6 +328,52 @@ public class ReservationHallDetails extends javax.swing.JFrame {
             // TODO add your handling code here:
     }//GEN-LAST:event_BTNdeleteActionPerformed
 
+    private void BTNupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNupdateActionPerformed
+       try{
+           System.out.println("test 1");
+           
+            System.out.println("test3");
+            String sql = "SELECT customer.Cid,customer.Cname,customer.CEmail,customer.NIC,customer.CContact,Reservation.checkIn from customer,Reservation where customer.Cid = Reservation.CusID AND Hname ='"+n+"'";
+            System.out.println("SQL CODE : "+sql);
+            System.out.println("test4");
+            
+            PreparedStatement pst;
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery(); 
+            System.out.println("Rs received");
+            
+            close();
+            ReservationUpdateInput k = new ReservationUpdateInput();
+            k.JLBName.setText(JLB6.getText());
+            
+            while (rs.next()) {
+                System.out.println("exe");
+                
+                
+                k.CID.setText(rs.getString(1));
+                k.HinputName.setText(rs.getString(2));
+                k.HinputEmail.setText(rs.getString(3));
+                k.HNIC.setText(rs.getString(4));
+                k.HinputContact.setText(rs.getString(5));
+                //k.HCheckIN.setDateFormatString(rs.getString(6));
+                //k.HCheckIN.setText(rs.getString(6).toString());
+                
+                String sDate1=rs.getString(6);  
+                //Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+                Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
+                k.HCheckIN.setDate(date1);
+            }
+            System.out.println("dab");
+            k.jLabel1.setText("Update Reservation for Hall");
+            k.setVisible(true);
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+         
+        
+    }//GEN-LAST:event_BTNupdateActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -352,6 +418,7 @@ public class ReservationHallDetails extends javax.swing.JFrame {
     private javax.swing.JLabel HICIn;
     private javax.swing.JLabel HIContact;
     private javax.swing.JLabel HIEmail;
+    private javax.swing.JLabel HINIC;
     private javax.swing.JLabel HIName;
     public javax.swing.JLabel JLB6;
     private javax.swing.JButton jButton1;
@@ -361,6 +428,7 @@ public class ReservationHallDetails extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 
 }

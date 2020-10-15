@@ -8,6 +8,7 @@ package itp.reservation;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,6 +26,7 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
      public String custID;
      public static int roomNo ;
      ResultSet rs;
+     public int f;
 
     /**
      * Creates new form ReservationRoomDetails
@@ -37,6 +39,7 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
     
     public void updateData(int no){
         System.out.println("GetData Executed");
+        f = no;
         try{
             String sql = "SELECT customer.Cname,customer.CEmail,customer.NIC,customer.CContact,Reservation.checkIn,Reservation.checkOut from customer,Reservation where customer.Cid = Reservation.CusID AND Rno ='"+no+"'";
             System.out.println("SQL CODE : "+sql);
@@ -185,6 +188,11 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
 
         BTNupdate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         BTNupdate.setText("UPDATE");
+        BTNupdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNupdateActionPerformed(evt);
+            }
+        });
 
         Backbtn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         Backbtn.setText("Back");
@@ -382,6 +390,54 @@ public class ReservationRoomDetails extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_BTNdeleteActionPerformed
+
+    private void BTNupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNupdateActionPerformed
+   try{
+           
+            String sql = "SELECT customer.Cid,customer.Cname,customer.CEmail,customer.NIC,customer.CContact,Reservation.checkIn,Reservation.checkOut from customer,Reservation where customer.Cid = Reservation.CusID AND Rno ='"+f+"'";
+            System.out.println("SQL CODE : "+sql);
+            System.out.println("test4");
+            
+            PreparedStatement pst;
+            pst = connection.prepareStatement(sql);
+            rs = pst.executeQuery(); 
+            System.out.println("Rs received");
+            
+            close();
+            ReservationRoomUpdateInput k = new ReservationRoomUpdateInput();
+            k.JLBName.setText(jlb2.getText());
+            
+            while (rs.next()) {
+                System.out.println("exe");
+                
+                
+                k.CID.setText(rs.getString(1));
+                k.RinputName.setText(rs.getString(2));
+                k.RinputEmail.setText(rs.getString(3));
+                k.RNIC.setText(rs.getString(4));
+                k.RinputContact.setText(rs.getString(5));
+                
+                String sDate1=rs.getString(6); 
+                String sDate2=rs.getString(7);
+               
+                java.util.Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
+                java.util.Date date2=new SimpleDateFormat("yyyy-MM-dd").parse(sDate2);
+                
+                k.RCheckIN.setDate(date1);
+                k.RCheckOut.setDate(date2);
+                
+                
+            }
+            System.out.println("dab");
+            k.jLabel1.setText("Update Reservation for Room");
+            k.setVisible(true);
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+         
+                
+    }//GEN-LAST:event_BTNupdateActionPerformed
 
     /**
      * @param args the command line arguments

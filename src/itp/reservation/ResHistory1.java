@@ -5,11 +5,17 @@
  */
 package itp.reservation;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.io.FileOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -123,6 +129,7 @@ public class ResHistory1 extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         HSearch = new javax.swing.JButton();
         SearchTxt = new javax.swing.JTextField();
+        HReportBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -177,6 +184,14 @@ public class ResHistory1 extends javax.swing.JFrame {
             }
         });
 
+        HReportBtn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        HReportBtn.setText("REPORT");
+        HReportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HReportBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,6 +215,10 @@ public class ResHistory1 extends javax.swing.JFrame {
                         .addComponent(HSearch)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(HReportBtn)
+                .addGap(70, 70, 70))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,7 +233,9 @@ public class ResHistory1 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(HSearch)
                     .addComponent(SearchTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(HReportBtn)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -237,6 +258,68 @@ public class ResHistory1 extends javax.swing.JFrame {
         String item = SearchTxt.getText();
         filter(item);
     }//GEN-LAST:event_HSearchActionPerformed
+
+    private void HReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HReportBtnActionPerformed
+       String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int x = j.showSaveDialog(this);
+        
+        if(x==JFileChooser.APPROVE_OPTION)
+        {
+            path = j.getSelectedFile().getPath();
+        }
+        
+        Document doc = new Document();
+        
+        try{
+            PdfWriter.getInstance(doc, new FileOutputStream(path+"\\HallHistoryReport.pdf"));
+            System.out.println("report Path : "+path+"HallHistoryReport.pdf");
+            
+            doc.open();
+            
+            
+            
+            PdfPTable tbl = new PdfPTable(5);
+            tbl.setWidthPercentage(110);
+            
+            
+            
+            //headings
+            tbl.addCell("Customer ID");
+            tbl.addCell("Customer Name");
+            tbl.addCell("Customer Email");
+            tbl.addCell("Customer Contact");
+            tbl.addCell("Check In");
+            
+            
+            for(int i=0; i<jTable1.getRowCount();i++)
+            {
+                String ID = jTable1.getValueAt(i,0).toString();
+                String Name = jTable1.getValueAt(i,1).toString();
+                String Email = jTable1.getValueAt(i,2).toString();
+                String Contact = jTable1.getValueAt(i,3).toString();
+                String Cin = jTable1.getValueAt(i,4).toString();
+                
+                
+                tbl.addCell(ID);
+                tbl.addCell(Name);
+                tbl.addCell(Email);
+                tbl.addCell(Contact);
+                tbl.addCell(Cin);
+                
+            }
+            
+            doc.add(tbl);
+            
+            JOptionPane.showMessageDialog(null, "SAVED!!!","Alert Message",JOptionPane.WARNING_MESSAGE);
+            
+        }catch(Exception e){
+            System.out.println("PDF Fail"+ e);
+        }
+        
+        doc.close();
+    }//GEN-LAST:event_HReportBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -275,6 +358,7 @@ public class ResHistory1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton HReportBtn;
     private javax.swing.JButton HSearch;
     private javax.swing.JTextField SearchTxt;
     private javax.swing.JButton jButton1;

@@ -252,11 +252,13 @@ public class HallReservation extends javax.swing.JFrame {
                 ReservationHallDetails l = new ReservationHallDetails();               
                 int row = HallDTable.getSelectedRow();
                 l.jLabel1.setText("Reservation Details for Hall ");
-                l.JLB6.setText(HallDTable.getModel().getValueAt(row, 0).toString());
+                
+                String Hall_name = HallDTable.getModel().getValueAt(row, 0).toString();
+                l.JLB6.setText(Hall_name);
                 String p = HallDTable.getModel().getValueAt(row, 0).toString();
                 
                 System.out.println(p);
-                l.updateData(p);
+                l.updateData(p,Hall_name);
                 l.setVisible(true);
         }
     }//GEN-LAST:event_VDetailsbtnActionPerformed

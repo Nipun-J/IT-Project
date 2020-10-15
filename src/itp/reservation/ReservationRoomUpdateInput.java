@@ -19,13 +19,13 @@ import java.util.regex.Pattern;
  *
  * @author SHADOWRATH
  */
-public class ReservationHInput1 extends javax.swing.JFrame {
+public class ReservationRoomUpdateInput extends javax.swing.JFrame {
 
     private Connection connection = DBConnection.getDbConnection();
     /**
      * Creates new form ReservationRInput
      */
-    public ReservationHInput1() {
+    public ReservationRoomUpdateInput() {
         initComponents();
     }
     
@@ -51,17 +51,20 @@ public class ReservationHInput1 extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        HinputName = new javax.swing.JTextField();
-        HinputContact = new javax.swing.JTextField();
-        HinputEmail = new javax.swing.JTextField();
+        RinputName = new javax.swing.JTextField();
+        RinputContact = new javax.swing.JTextField();
+        RinputEmail = new javax.swing.JTextField();
         HReserveBtn = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        HCheckIN = new com.toedter.calendar.JDateChooser();
+        RCheckIN = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         JLBName = new javax.swing.JLabel();
-        HNIC = new javax.swing.JTextField();
+        RNIC = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        HDemobtn = new javax.swing.JButton();
+        CID = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        RCheckOut = new com.toedter.calendar.JDateChooser();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -87,14 +90,16 @@ public class ReservationHInput1 extends javax.swing.JFrame {
 
         jLabel5.setText("Check In:");
 
-        HinputContact.addActionListener(new java.awt.event.ActionListener() {
+        RinputName.setText("to set");
+
+        RinputContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HinputContactActionPerformed(evt);
+                RinputContactActionPerformed(evt);
             }
         });
-        HinputContact.addKeyListener(new java.awt.event.KeyAdapter() {
+        RinputContact.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                HinputContactKeyPressed(evt);
+                RinputContactKeyPressed(evt);
             }
         });
 
@@ -122,12 +127,10 @@ public class ReservationHInput1 extends javax.swing.JFrame {
 
         jLabel8.setText("NIC :");
 
-        HDemobtn.setText("DEMO");
-        HDemobtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HDemobtnActionPerformed(evt);
-            }
-        });
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("CID:");
+
+        jLabel9.setText("Check Out :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,37 +150,42 @@ public class ReservationHInput1 extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(HDemobtn)
-                .addGap(69, 69, 69)
-                .addComponent(HReserveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(HinputEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                            .addComponent(HinputName, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                            .addComponent(HNIC))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel6))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CID, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(RinputEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                .addComponent(RinputName, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                .addComponent(RNIC)))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel9))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(HinputContact, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(HCheckIN, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(RCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(RinputContact, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(RCheckIN, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addComponent(HReserveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -193,42 +201,48 @@ public class ReservationHInput1 extends javax.swing.JFrame {
                         .addComponent(jButton4)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(CID, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(HinputName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(RinputName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(HinputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(RinputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(HNIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RNIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(HinputContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RinputContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(HCheckIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(HReserveBtn)
-                    .addComponent(HDemobtn))
-                .addGap(37, 37, 37))
+                            .addComponent(RCheckIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(RCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))))
+                .addGap(25, 25, 25)
+                .addComponent(HReserveBtn)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void HinputContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HinputContactActionPerformed
+    private void RinputContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RinputContactActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_HinputContactActionPerformed
+    }//GEN-LAST:event_RinputContactActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         close();
@@ -243,16 +257,15 @@ public class ReservationHInput1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void HReserveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HReserveBtnActionPerformed
-        if(HinputName.getText().isEmpty() && HinputEmail.getText().isEmpty() && HinputContact.getText().isEmpty()){
+        if(RinputName.getText().isEmpty() && RinputEmail.getText().isEmpty() && RinputContact.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "<html>Incomplete Information!!!! <br> Please check</html>");
         }
         try{
-            String CustomerID = ID.generateIDs(ID.getCustomerIDs(), "C");
-            String RID = ID.generateIDs(ID.getReserveIDs(), "R");
             
-            String sql = "INSERT into customer(Cid,Cname,CEmail,NIC,CContact) values (?,?,?,?,?)";
-            String sqlx = "INSERT into Reservation(RecID,CusID,checkIn,Hname) values (?,?,?,?)";
-            String sqly = "UPDATE Halls SET status_= TRUE WHERE HallName = ?";
+            
+            String sql = "UPDATE customer SET Cname = ?,CEmail = ?,NIC = ?,CContact = ? WHERE Cid = ?";
+            String sqlx = "UPDATE Reservation SET checkIn = ?,checkOut = ? WHERE Rno = ?";
+            String sqly = "UPDATE Rooms SET status_= TRUE WHERE Room_Number = ?";
             
           PreparedStatement pst;
           PreparedStatement pstx;
@@ -264,30 +277,31 @@ public class ReservationHInput1 extends javax.swing.JFrame {
               
               SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
               
-            pst.setString(1,CustomerID);
-            pst.setString(2,HinputName.getText());
-            pst.setString(3,HinputEmail.getText());
-            pst.setString(4,HNIC.getText());
-            pst.setInt(5,Integer.parseInt(HinputContact.getText()));
             
-            pstx.setString(1,RID);
-            pstx.setString(2,CustomerID);
-            pstx.setString(3,date.format(HCheckIN.getDate()));
-            pstx.setString(4,JLBName.getText());
+            pst.setString(1,RinputName.getText());
+            pst.setString(2,RinputEmail.getText());
+            pst.setString(3,RNIC.getText());
+            pst.setInt(4,Integer.parseInt(RinputContact.getText()));
+            pst.setString(5, CID.getText());
+            
+            
+            pstx.setString(1,date.format(RCheckIN.getDate()));
+            pstx.setString(2,date.format(RCheckOut.getDate()));
+            pstx.setString(3,JLBName.getText());
             
             psty.setString(1, JLBName.getText());
             
             
-            if (!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", HinputEmail.getText()))) 
+            if (!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", RinputEmail.getText()))) 
 {
             JOptionPane.showMessageDialog(null, "Please enter a valid email", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if(HNIC.getText().length()<10){
+            else if(RNIC.getText().length()<10){
               JOptionPane.showMessageDialog(null, "Please enter a valid NIC number", "Error", JOptionPane.ERROR_MESSAGE);   
              }
             else
             {
-            int m = JOptionPane.showConfirmDialog(null,"Confirm this reservation","CONFIRMATION",JOptionPane.YES_NO_OPTION);
+            int m = JOptionPane.showConfirmDialog(null,"Update this reservation","UPDATE",JOptionPane.YES_NO_OPTION);
             if(m == 0)
             {
                pst.executeUpdate();
@@ -296,11 +310,8 @@ public class ReservationHInput1 extends javax.swing.JFrame {
             }
             else
             {
-               HinputName.setText(null);
-               HinputEmail.setText(null);
-               HinputContact.setText("");
-               HCheckIN.setDate(null);
-               
+              
+               JOptionPane.showMessageDialog(null, "Reservation failed","Alert",JOptionPane.WARNING_MESSAGE);
                 
             }
             }
@@ -310,35 +321,27 @@ public class ReservationHInput1 extends javax.swing.JFrame {
                                       
     }//GEN-LAST:event_HReserveBtnActionPerformed
 
-    private void HinputContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_HinputContactKeyPressed
-        String Contact = HinputContact.getText();
+    private void RinputContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RinputContactKeyPressed
+        String Contact = RinputContact.getText();
         int length = Contact.length();
         char l = evt.getKeyChar();
         
         if(evt.getKeyChar()>='0' && evt.getKeyChar()<='9')
         {
             if(length<10)
-                HinputContact.setEditable(true);
+                RinputContact.setEditable(true);
             else
-                HinputContact.setEditable(false);
+                RinputContact.setEditable(false);
         }else
         {
           if(evt.getExtendedKeyCode()==KeyEvent.VK_BACK_SPACE || evt.getExtendedKeyCode()==KeyEvent.VK_DELETE)
           {
-              HinputContact.setEditable(true);
+              RinputContact.setEditable(true);
           }
           else
-              HinputContact.setEditable(false);
+              RinputContact.setEditable(false);
         }
-    }//GEN-LAST:event_HinputContactKeyPressed
-
-    private void HDemobtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HDemobtnActionPerformed
-        HinputName.setText("damith");
-        HinputEmail.setText("Damith@gmail.com");
-        HNIC.setText("123456789V");
-        HinputContact.setText("0981234567");
-     
-    }//GEN-LAST:event_HDemobtnActionPerformed
+    }//GEN-LAST:event_RinputContactKeyPressed
         
     /**
      * @param args the command line arguments
@@ -357,34 +360,41 @@ public class ReservationHInput1 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReservationHInput1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ReservationRoomUpdateInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReservationHInput1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ReservationRoomUpdateInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReservationHInput1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ReservationRoomUpdateInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReservationHInput1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ReservationRoomUpdateInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReservationHInput1().setVisible(true);
+                new ReservationRoomUpdateInput().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser HCheckIN;
-    private javax.swing.JButton HDemobtn;
-    private javax.swing.JTextField HNIC;
+    public javax.swing.JLabel CID;
     private javax.swing.JButton HReserveBtn;
-    private javax.swing.JTextField HinputContact;
-    private javax.swing.JTextField HinputEmail;
-    private javax.swing.JTextField HinputName;
     public javax.swing.JLabel JLBName;
+    public com.toedter.calendar.JDateChooser RCheckIN;
+    public com.toedter.calendar.JDateChooser RCheckOut;
+    public javax.swing.JTextField RNIC;
+    public javax.swing.JTextField RinputContact;
+    public javax.swing.JTextField RinputEmail;
+    public javax.swing.JTextField RinputName;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
@@ -393,7 +403,9 @@ public class ReservationHInput1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     // End of variables declaration//GEN-END:variables
 }
